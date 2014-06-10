@@ -29,7 +29,7 @@ void setup() {
   buttonJump = new Button(1100,100,"jump", "yellow");
   buttonKick = new Button(1100,200,"kick", "green");
   buttonPanch = new Button(1100,300,"panch","cian");
-  start = new Button (width/2-50,height/2-50,"start","puple");
+  start = new Button (width/2-50,height/2-50,"start","purple");
   //キャラクターインスタンス化
   man = new Charactor();
 }
