@@ -1,3 +1,8 @@
+/*アニメーションの追加はアニメーションメソッドを実装します．
+既存のアニメーションメソッドをコピーペーストするといいでしょう．
+各コマで細かい位置を変更したい場合はそのコマを表示する実装を
+PshuMatrix(),PopMatrix()で囲みその中でtransrate(),rotate()を実装します．
+*/
 import java.util.Map;
 public class Charactor {
   int x = width / 2, y;
@@ -28,16 +33,18 @@ public class Charactor {
   void moveHorizontally(int x) {
     this.x = x;
   }
-
+  
+  //キャラクター（首原点）の回転
   void setW(int w) {
     this.w = w;
   }
 
-  //向き変更
+  //左へ向き変更
   void turnLeftDirection() {
     direction = 1;
   }
-
+  
+  //右へ向き変更
   void turnRightDirection() {
     direction = -1;
   }
@@ -58,7 +65,9 @@ public class Charactor {
     bodyF.initialize();
     bodyS.initialize();
   }
-
+  
+  //アクションメソッド
+  //すべてのメソッドが実行される．ただし各アニメーションの実行は対応のアクションフラグで制御
   void action() {
     pushMatrix();
     translate(x, y);
@@ -71,7 +80,8 @@ public class Charactor {
     kick();
     popMatrix();
   }
-
+  
+  //アクションフラグの初期化
   HashMap setActionFlag() {
     HashMap flag = new HashMap();
     flag.put("stand", true);
@@ -93,13 +103,12 @@ public class Charactor {
       }
       e.setValue(false);
     }
-    this.actionFlag.put("stand", false);
   }
-
+  
+  //待機アニメーション（ただの直立）
   void stand() {
     scale(direction, 1);
-    if (actionFlag.get("stand")) {
-      Partsinitialize();//初期化が必要 
+    if (actionFlag.get("stand")) { 
       armL.setW(70);
       armL.setXY(bodyF.getWidth()/3+8, 0);
       armL.draw();
@@ -114,7 +123,8 @@ public class Charactor {
       armR.draw();
     }
   }
-
+  
+  //左へ歩く
   void wolkL() {
     if (actionFlag.get("wolkL")) {
       turnLeftDirection();
@@ -138,7 +148,7 @@ public class Charactor {
       } 
       else if (t<25) {
         pushMatrix();
-        translate(0, 2);
+        translate(0, 2);//よりアニメーションらしさをだすために微調整
         armR.setW(-139);
         armR.setXY(0, bodyS.getHeadHeight());
         armR.draw();
@@ -209,7 +219,7 @@ public class Charactor {
         armL.setW(75);
         armL.setXY(bodyS.getWidth() / 2 - 10, 4);
         armL.draw();
-        actionFlag.put("wolkL", false);//こんな感じ？
+        actionFlag.put("wolkL", false);
         actionFlag.put("stand", true);
         setStandardPosition();
         t = 0;
@@ -217,7 +227,8 @@ public class Charactor {
       x+=1;
     }
   }
-
+  
+  //右に歩く
   void wolkR() {
     if (actionFlag.get("wolkR")) {
       turnRightDirection();
@@ -312,7 +323,7 @@ public class Charactor {
         armL.setW(75);
         armL.setXY(bodyS.getWidth() / 2 - 10, 4);
         armL.draw();
-        actionFlag.put("wolkR", false);//こんな感じ？
+        actionFlag.put("wolkR", false);
         actionFlag.put("stand", true);
         setStandardPosition();
         t = 0;
@@ -320,13 +331,13 @@ public class Charactor {
       x-=1;
     }
   }
-
-void kick() {
+  
+  //キック
+  void kick() {
     if (actionFlag.get("kick")) { 
       Partsinitialize();
       if (u == 1000){
         u = t; 
-        Partsinitialize();//初期化が必要 
         armL.setW(70);
         armL.setXY(bodyF.getWidth()/3+8, 0);
         armL.draw();
@@ -340,7 +351,6 @@ void kick() {
         armR.setXY(-bodyF.getWidth()/3-2, 4);
         armR.draw();       
       }else if((t-u)<10) {   
-        Partsinitialize();//初期化が必要 
         armL.setW(70);
         armL.setXY(bodyF.getWidth()/3+8, 0);
         armL.draw();
@@ -393,7 +403,6 @@ void kick() {
         setStandardPosition();
       }
       else {
-        Partsinitialize();//初期化が必要 
         armL.setW(70);
         armL.setXY(bodyF.getWidth()/3+8, 0);
         armL.draw();
@@ -406,7 +415,7 @@ void kick() {
         armR.setW(-55);
         armR.setXY(-bodyF.getWidth()/3-2, 4);
         armR.draw();
-        actionFlag.put("kick", false);//こんな感じ？
+        actionFlag.put("kick", false);
         actionFlag.put("stand", true);
         setStandardPosition();
         t = 0;
@@ -415,12 +424,12 @@ void kick() {
     }
   }
   
+  //パンチ
   void panch(){
     if (actionFlag.get("panch")) { 
       Partsinitialize();
       if (u == 1000){
         u = t;
-        Partsinitialize();//初期化が必要 
         armL.setW(70);
         armL.setXY(bodyF.getWidth()/3+8, 0);
         armL.draw();
@@ -511,12 +520,12 @@ void kick() {
     }
   }
   
+  //ジャンプ
   void jump(){
     if (actionFlag.get("jump")) { 
       Partsinitialize();
       if(u == 1000){
         u = t;
-        Partsinitialize();//初期化が必要 
         armL.setW(70);
         armL.setXY(bodyF.getWidth()/3+8, 0);
         armL.draw();
@@ -530,7 +539,6 @@ void kick() {
         armR.setXY(-bodyF.getWidth()/3-2, 4);
         armR.draw();
       }else if((t-u)<5){
-        Partsinitialize();//初期化が必要 
         armL.setW(70);
         armL.setXY(bodyF.getWidth()/3+8, 0);
         armL.draw();
@@ -545,6 +553,8 @@ void kick() {
         armR.draw();
       }
       else if((t-u)<20){
+        pushMatrix();
+        translate(0,-8);
         bodyF.setXY(0,0);
         armL.setW(0);
         armR.setW(0);
@@ -561,9 +571,11 @@ void kick() {
         bodyF.draw();
         armR.draw();
         setStandardPosition();
-        this.move(x,y-8);
+        popMatrix();
       }
       else if((t-u)<40){
+        pushMatrix();
+        translate(0,-15);
         bodyF.setXY(0,0);
         armL.setW(-30);
         armR.setW(30);
@@ -580,9 +592,11 @@ void kick() {
         bodyF.draw();
         armR.draw();
         setStandardPosition();
-        this.move(x,y-15);  
+        popMatrix();
       }
       else if((t-u)<60){
+        pushMatrix();
+        translate(0,-8);
         bodyF.setXY(0,0);
         armL.setW(0);
         armR.setW(0);
@@ -599,11 +613,10 @@ void kick() {
         bodyF.draw();
         armR.draw();
         setStandardPosition();
-        this.move(x,y-8);
+        popMatrix();
       }
       else{
         setStandardPosition();
-        Partsinitialize();//初期化が必要 
         armL.setW(70);
         armL.setXY(bodyF.getWidth()/3+8, 0);
         armL.draw();

@@ -1,4 +1,4 @@
-import java.util.Map;
+//ボタンクラス
 public class Button {
   private int x, y;
   private int wid = 100, hei = 100;
@@ -12,13 +12,14 @@ public class Button {
     this.x = x;
     this.y = y;
   }
-
+  
+  //ボタンの色の定義ここでボタンの色を増やす
   private color setColors(String s) {
     if (s.equals("red")) return color(255, 0, 0);
     if (s.equals("blue")) return color(0, 0, 255);
     if (s.equals("green")) return color(0, 255, 0);
     if (s.equals("yellow")) return color(255, 255, 0);
-    if (s.equals("puple")) return color(255, 0, 255);
+    if (s.equals("purple")) return color(255, 0, 255);
     if (s.equals("cian"))return color(0, 255, 255);
     return color(0, 0, 0);
   }
@@ -29,7 +30,8 @@ public class Button {
       rect(x, y, wid, hei);
     }
   }
-
+  
+  //ボタンの上に
   public boolean onButton(int mx, int my) {
     if (mx > x && mx < x + wid) {
       if (my > y && my < y + hei) {
@@ -39,7 +41,8 @@ public class Button {
 
     return false;
   }
-
+  
+  //ボタンを消す
   public void kill() {
     x = -1;
     y = -1;

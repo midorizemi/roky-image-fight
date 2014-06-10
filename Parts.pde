@@ -1,3 +1,5 @@
+//パーツクラス
+//赤背景を透過処理して描画する．
 public class Parts {
   int x = 0, y = 0;
   int imgX, imgY;
@@ -57,26 +59,28 @@ public class Parts {
     setY(0);
     setW(0);
   }
-
+  
+  //透過して描画する
   void draw() {
+    //取り込んだ元画像のすべての画素を参照
     for (int j = 0; j < src.height ; j++) {
       for (int i = 0; i < src.width ; i++) {
-        int p = j * src.width + i;
-        float r = .0, g = .0, b = .0;
+        int p = j * src.width + i;//ある位置の画素
+        float r = .0, g = .0, b = .0;//画素の色数値の初期化
 
-        r = red(src.pixels[p]);
-        g = green(src.pixels[p]);
-        b = blue(src.pixels[p]);
+        r = red(src.pixels[p]);//画素pの赤色値
+        g = green(src.pixels[p]);//画素pの緑色値
+        b = blue(src.pixels[p]);//画素pの青色値
 
         if (r == 255 && g == 0 && b == 0) {
-          img.pixels[p] = color(0, 0, 0, 0);
+          img.pixels[p] = color(0, 0, 0, 0);//#FF0000ならば透過
         }
         else {
-          img.pixels[p] = color(r, g, b, 255);
+          img.pixels[p] = color(r, g, b, 255);//画像の色情報を設定
         }
       }
     }
-    img.updatePixels();
+    img.updatePixels();//設定したピクセル値に更新
     
     imageMode(CORNER);
     pushMatrix();
